@@ -1,4 +1,5 @@
 #include "ThreadPool.hpp"
+#include "Logger.hpp"
 
 ThreadPool::ThreadPool(size_t num_threads)
 {
@@ -35,8 +36,16 @@ void ThreadPool::enqueue(std::function<void()> task)
 
 void ThreadPool::create_thread()
 {
-    m_threads.emplace_back([this] {
-            printf("Thread %ld started.\n", std::this_thread::get_id());
+    Logger *logger = Logger::getInstance();
+    logger->enableConsoleOutput(true);
+    logger->enableFileOutput("log.txt", true);
+
+    m_threads.emplace_back([this, logger] {
+        std::stringstream ss;
+        ss << std::this_thread::get_id();
+        std::string thread_id_str = ss.str();
+
+        logger->log(INFO, "Thread " + thread_id_str + " started.", "ThreadPool.cpp");
             while(true)
             {
                 std::function<void()> task; //can store any void function withour parameters

@@ -1,6 +1,20 @@
 #include "Logger.hpp"
 
+
+
 Logger *Logger::instance = nullptr;
+
+std::string Logger::getTime()
+{
+    // returneaza timpul curent sub forma de string
+    std::time_t now = std::time(nullptr);
+    std::tm *time = std::localtime(&now);
+
+    std::ostringstream oss;
+    oss << std::put_time(time, "[%Y-%m-%d %H:%M:%S]");
+
+    return oss.str();
+}
 
 void Logger::writeLog(std::string message)
 {
@@ -29,8 +43,7 @@ Logger *Logger::getInstance()
 void Logger::log(int level, std::string message, std::string file)
 {
     // foloseste writeLog pentru a scrie mesajul in consola si/sau in fisier
-
-    writeLog(getLevel(level) + " " + getTime() + " " + message + " " + file);
+    writeLog("[" + getLevel(level) + "]" + " " + getTime() + " " + message + " " + "[" + file + "]");
 }
 
 void Logger::enableConsoleOutput(bool enable)
