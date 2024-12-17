@@ -41,7 +41,4 @@ private:
     std::string status_message_ = "OK";
     std::unordered_map<std::string, std::string> headers_;
     std::string body_;
-
-
-
 };

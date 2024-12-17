@@ -10,6 +10,7 @@
 #include <string>
 #include <fstream>
 #include <ctime>
+#include <iomanip>
 
 // Singleton Logger
 // Dupa instantierea clasei Logger, trebuie folosite metodele enableConsoleOutput si enableFileOutput pentru a activa iesirea in consola si/sau in fisier
@@ -29,7 +30,7 @@ class Logger
 
         std::ofstream   logFile;
         std::string     getLevel(int level) {return level == DEBUG ? "DEBUG" : level == INFO ? "INFO" : level == WARNING ? "WARNING" : level == ERROR ? "ERROR" : "FATAL";}
-        std::string     getTime() {return std::to_string(time(0));}
+        std::string     getTime();
         void            writeLog(std::string message);
 
     public:

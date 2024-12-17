@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <iostream>
+#include "Logger.hpp"
 
 class Deserializer {
 public:

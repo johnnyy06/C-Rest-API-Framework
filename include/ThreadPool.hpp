@@ -6,6 +6,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <atomic>
+#include <sstream>
 
 class ThreadPool 
 {
@@ -17,9 +18,9 @@ public:
     
 protected:
     void create_thread();
-    void worker_thread();
-    void resize_pool(size_t targetSize);
-    void check_and_scale_up();
+    //void worker_thread();
+    //void resize_pool(size_t targetSize);
+    //void check_and_scale_up();
 
 
     std::vector<std::thread> m_threads;
