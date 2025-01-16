@@ -1,0 +1,39 @@
+Compilare:
+    - pentru aceasta se va folosi comanda "make" in consola, Makefile-ul fiind deja inclus in proiect
+    - se genereaza executabilul "myserver"
+
+Rulare:
+    - se ruleaza folosind "./myserver"
+    - in browser, in bara de adrese (bara URL) se va introduce adresa: "http//localhost:{port}"         portul implicit este 8080, dar poate fi setat dupa dorinta dezvoltatorului
+    - prin accesarea endpoint-urilor se poate naviga prin rutele disponibile (deja definite)
+
+
+
+Adaugare endpoint:
+    - puteti defini un endpoint nou prin adaugarea acesteia in main, dupa modelul celor adaugate deja (nu uitati de adaugarea fisierului .html in folder-ul html)
+
+
+
+Functionalitati:
+
+    Routare:
+    - definirea si manipularea rutelor pentru metode HTTP precum GET, POST, PUT, DELETE etc.
+    - asocierea rutelor cu functii de tratare a cererilor
+
+    Serializare si deserializare:
+    - transforma datele intre formate
+
+    Gestionare raspunsuri:
+    - suport pentru crearea de raspunsuri personalizate
+
+    Conexiuni multithreading:
+    - ofera suport pentru manipularea eficienta a cererilor simultane prin multithreading
+
+    Middleware:
+    - suport pentru integrarea de componente intermediare pentru autentificare, autorizare, logare sau alte verificari inainte de procesarea cereri
+
+    
+
+
+Funcitonalitati care au probleme:
+    - uneori la folosirea CORS din Middleware, cand se incearca conectarea pe broser la localhost, pagina apare ca se incarca la nesfarsit

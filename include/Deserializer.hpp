@@ -1,9 +1,9 @@
+#pragma once
 #include "HTTPRequest.hpp"
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <iostream>
-#include "Logger.hpp"
 
 class Deserializer {
 public:

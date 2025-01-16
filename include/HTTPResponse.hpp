@@ -19,6 +19,7 @@ public:
  
     void Send(nlohmann::json json_obj);
     void SendHtmlPage(const std::string& filename);
+    inline bool isResponded() const { return m_respondend; }
 
     int getStatusCode() const;
     const std::string& getStatusMessage() const;
@@ -33,7 +34,9 @@ public:
     void setContentType(const ContentType& content_type);
     void setContentType(const std::string& content_type);
 
+    std::string to_string() const;
 private:
+
     std::string load_html_file(const std::string& filename);
 
     int client_socket_;
@@ -41,4 +44,8 @@ private:
     std::string status_message_ = "OK";
     std::unordered_map<std::string, std::string> headers_;
     std::string body_;
+    bool m_respondend = false;
+
+
+
 };

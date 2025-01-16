@@ -31,7 +31,46 @@
 	Prin implementarea acestui framework, se urmărește nu doar facilitarea dezvoltării aplicațiilor, ci și învățarea profundă a conceptelor fundamentale ale protocoalelor de rețea, gestionarea cererilor HTTP și manipularea datelor, oferind un cadru solid pentru proiecte viitoare în domeniul dezvoltării software.
 
  ## 2.2 Diagrama arhitecturii
- Client --> Server HTTP --> Parser HTTP --> Middleware-uri --> Router --> Generator Răspuns --> Server HTTP --> Client
+```mermaid
+flowchart TB
+    subgraph Client["Client Side"]
+        Browser["Browser/App"]
+        PostmanCurl["Postman/Curl"]
+    end
+
+    subgraph Server["Your C++ REST API Server"]
+        ThreadPool["Thread Pool Manager"]
+        Router["Router"]
+        Middleware["Middleware Layer"]
+        subgraph Handlers["Request Handlers"]
+            Auth["Authentication"]
+            Users["User Management"]
+            Data["Data Operations"]
+        end
+    end
+
+    subgraph Storage["Data Layer"]
+        DB["Database"]
+        Files["File System"]
+    end
+
+    Browser --> |"HTTP Request"| ThreadPool
+    PostmanCurl --> |"HTTP Request"| ThreadPool
+    ThreadPool --> |"Distribute Request"| Middleware
+    Middleware --> |"Process"| Router
+    Router --> |"Route to"| Handlers
+    Handlers --> |"Access"| Storage
+    Storage --> |"Return Data"| Handlers
+    Handlers --> |"Response"| Router
+    Router --> |"Format"| Middleware
+    Middleware --> |"Send"| ThreadPool
+    ThreadPool --> |"HTTP Response"| Browser
+    ThreadPool --> |"HTTP Response"| PostmanCurl
+
+    style Server fill:#f9f,stroke:#333,stroke-width:4px
+    style Client fill:#bbf,stroke:#333,stroke-width:2px
+    style Storage fill:#bfb,stroke:#333,stroke-width:2px
+```
 
 
 
@@ -43,11 +82,14 @@
 ## 3.2 Rute si managementul cererilor
   Rutele definesc punctele de acces (URL-uri) și mapează cererile HTTP la funcțiile specifice (handler-e) care le gestionează, în funcție de metoda cererii (GET, POST, etc.). Managementul cererilor implică direcționarea cererilor către handler-ele corespunzătoare și prelucrarea datelor pentru a genera răspunsul potrivit. Sistemul de rutare trebuie să fie flexibil, permițând adăugarea de noi rute și aplicarea de middleware-uri pentru pre-procesarea cererilor.
 
-## 3.3 Serializare si deserializare JSON
-  Serializarea JSON transformă datele din structuri interne (precum obiecte sau structuri C++) într-un format JSON, ușor de transmis către client. Deserializarea JSON face conversia inversă, transformând datele JSON primite într-o formă utilizabilă intern de către server. Aceste procese sunt esențiale pentru comunicarea eficientă într-un API REST, permițând schimbul de date structurate între client și server.
+## 3.3 Serializare si deserializare
+  Serializarea transformă datele din structuri interne (precum obiecte sau structuri C++) într-un format ușor de transmis către client. Deserializarea face conversia inversă, transformând datele primite într-o formă utilizabilă intern de către server. Aceste procese sunt esențiale pentru comunicarea eficientă într-un API REST, permițând schimbul de date structurate între client și server.
 
 ## 3.4 Gestionarea erorilor
   Gestionarea erorilor presupune identificarea, capturarea și tratarea erorilor apărute în timpul procesării cererilor HTTP, oferind răspunsuri descriptive și coduri de stare adecvate (ex. 404 pentru „Not Found” sau 500 pentru „Internal Server Error”). Un sistem robust de gestionare a erorilor ajută la menținerea stabilității serverului și îmbunătățește experiența utilizatorului prin mesaje de eroare clare. În plus, gestionarea erorilor poate include logarea automată a incidentelor pentru diagnosticare și depanare.
+
+## 3.5 Logare
+  Logarea implică înregistrarea evenimentelor și activităților serverului, precum cererile primite, erorile întâlnite sau alte operațiuni importante. Aceasta ajută la monitorizarea performanței, diagnosticarea problemelor și asigurarea securității. Sistemul de logare trebuie să permită configurarea nivelurilor de detaliu (ex. debug, info, warning, error).
 
 
 
@@ -65,11 +107,20 @@
 ## 4.4 Generator de raspunsuri
   Generatorul de răspunsuri construiește răspunsul HTTP, incluzând statusul (ex. 200, 404), anteturile și corpul răspunsului. Aceasta asigură formatarea corectă a răspunsului înainte de a fi trimis către client. Permite gestionarea uniformă a structurii răspunsurilor și a codurilor de stare.
 
-## 4.5 Serializator/Deserializator JSON
-  Serializatorul transformă datele din structurile interne ale serverului în format JSON pentru a fi trimise la client, iar deserializatorul face conversia inversă. Aceasta permite schimbul facil de date structurate între client și server.
+## 4.5 Serializator/Deserializator
+  Serializatorul transformă datele din structurile interne ale serverului pentru a fi trimise la client, iar deserializatorul face conversia inversă. Aceasta permite schimbul facil de date structurate între client și server.
 
 ## 4.6 Manager de erori
   Managerul de erori gestionează și tratează erorile care apar în timpul procesării cererilor, oferind răspunsuri clare și coduri de eroare adecvate. Acesta asigură stabilitatea aplicației și ajută la diagnosticarea problemelor. Loghează erorile pentru a facilita depanarea și îmbunătățește experiența utilizatorului.
 
-## 4.7 Middleware
+## 4.7 Logger
+  Loggerul ajuta la inregistrarea actiunilor care au loc in intermediul aplicatiei cand aceasta este rulata. Cu diferite tipuri de mesaje (INFO, WARNING, ERROR), aceasta componenta este utila mai ales in depanarea erorilor si in urmarirea unor activitati suspecte din cadrul aplicatiei.
+
+## 4.8 Middleware
   Middleware-urile sunt componente intermediare care procesează cererile înainte de a ajunge la router sau răspunsurile înainte de a fi trimise. Ele pot efectua autentificare, logare, validare și alte prelucrări necesare. Middleware-urile adaugă funcționalități suplimentare și modularitate în procesarea cererilor și răspunsurilor.
+
+
+# 5. Concluzie
+
+  REST API-ul implementat în C++ reprezintă o fundație solidă pentru dezvoltarea de servicii web performante și scalabile. Cu planurile de îmbunătățire propuse, poate evolua într-o soluție completă pentru diverse cazuri de utilizare în producție.
+  Alegerea C++ pentru implementare oferă avantaje semnificative în termeni de performanță și control, făcând acest API potrivit pentru scenarii unde eficiența și viteza sunt critice.
